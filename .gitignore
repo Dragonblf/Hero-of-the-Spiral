@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# DVC
+Assets/Project/Models
+Assets/Project/Textures
