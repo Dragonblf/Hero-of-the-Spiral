@@ -8,7 +8,7 @@
 ## Prerequisites
 
 - Install Unity with at least the version 2020.3.22f1.
-- Install [DVC](https://dvc.org/doc/install). DVC is used to store large artifacts like textures or models outside of the repository in Google Drive. With this technique we can guarantee a small repository and versioning of large artifacts without to usage of Git LFS.
+- Install [DVC](https://dvc.org/doc/install). DVC is used to store large artifacts like textures or models outside of the repository in Google Drive. With this technique we can guarantee a small repository and versioning of large artifacts without to Git LFS.
 - Google Account to be allowed to download the artifacts with DVC from Google Drive.
 
 ## How to get started
