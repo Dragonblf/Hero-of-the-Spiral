@@ -5,6 +5,20 @@
 
 ### 🏠 [Homepage](https://github.com/Dragonblf/Hero-of-the-Spiral)
 
+## Prerequisites
+
+- Install Unity with at least the version 2020.3.22f1.
+- Install [DVC](https://dvc.org/doc/install). DVC is used to store large artifacts like textures or models outside of the repository in Google Drive. With this technique we can guarantee a small repository and versioning of large artifacts without to usage of Git LFS.
+- Google Account to be allowed to download the artifacts with DVC from Google Drive.
+
+## How to get started
+
+1. Clone the project
+   `git clone https://github.com/Dragonblf/Hero-of-the-Spiral.git`
+2. Go into the cloned directory and pull the latest artifacts with DVC
+   `dvc pull`
+3. Open cloned project directory in Unity
+
 ## Author
 
 👤 **Thomas Trautwein**
