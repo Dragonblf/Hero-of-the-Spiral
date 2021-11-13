@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 #endif
 
-namespace HOTS
+namespace HOTS.Player
 {
 	/// <summary>
 	/// Class which is responsible for the player controlling.
