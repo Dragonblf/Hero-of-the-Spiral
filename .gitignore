@@ -59,5 +59,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 # DVC
-Assets/Project/Models
-Assets/Project/Textures
+Assets/_Project/Models
+Assets/_Project/Textures
+Assets/Plugins
