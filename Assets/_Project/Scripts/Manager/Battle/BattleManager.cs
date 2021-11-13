@@ -112,6 +112,7 @@ namespace HOTS.Manager.Battle
             // Move enemy to desired battle position
             StartCoroutine(SetEnemyBattlePosition(_enemy, 0, _battleGround));
         }
+        
 
         /// <summary>
         /// Sets the battle position for <paramref name="player"/>.
@@ -126,7 +127,7 @@ namespace HOTS.Manager.Battle
             var degree = _playerPositions[index];
             var position = GetBattlePosition(battleGround.transform.position, degree, _battleGroundRadius);
             position.y = player.transform.position.y;
-
+            
             // Move player to battle position
             Debug.Log($"Move player #{index} from {player.transform.position} to {position}");
             return MoveObjectSmooth(player, position, _startBattleSequenceDuration);
@@ -167,8 +168,20 @@ namespace HOTS.Manager.Battle
 
             while (elapsedTime < time)
             {
+                // Set position for object to move
                 gameObject.transform.position = Vector3.Lerp(startingPos, finalPosition, (elapsedTime / time));
                 elapsedTime += Time.deltaTime;
+
+                // Set rotation of the object in direction to move
+                ObjectLookAt(gameObject, finalPosition, 5f);
+
+                yield return null;
+            }
+
+            // Set rotation of the object back to the starting position
+            for (var i = 0; i < 50; i++)
+            {
+                ObjectLookAt(gameObject, startingPos, 10f);
                 yield return null;
             }
         }
@@ -192,6 +205,23 @@ namespace HOTS.Manager.Battle
                 y = 0,
                 z = circlePosition.z + Mathf.Sin(radians) * radius
             };
+        }
+
+        /// <summary>
+        /// Smoothly rotates <paramref name="gameObject"/> to <paramref name="position"/>
+        /// with given <paramref name="speed"/>.
+        /// </summary>
+        /// <param name="gameObject">Game object to rotate</param>
+        /// <param name="position">Position to which <paramref name="gameObject"/> should be rotated</param>
+        /// <param name="speed">Speed of the rotation</param>
+        private void ObjectLookAt(GameObject gameObject, Vector3 position, float speed)
+        {
+            var direction = (position - gameObject.transform.position).normalized;
+            direction.y = 0f;
+            var lookRotation = Quaternion.LookRotation(direction);
+
+            gameObject.transform.rotation = 
+                Quaternion.Slerp(gameObject.transform.rotation, lookRotation, Time.deltaTime * speed);
         }
 
 
