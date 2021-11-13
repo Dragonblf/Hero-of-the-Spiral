@@ -26,6 +26,7 @@ namespace HOTS.Player
             // Handle collision with an enemy
             if (hit.collider.tag == "Enemy")
             {
+                Debug.Log("Test");
                 _battleEventSystem.BattleBegin(gameObject, hit.gameObject);
             }
         }
