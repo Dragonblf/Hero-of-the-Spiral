@@ -100,6 +100,8 @@ namespace HOTS.Player
 
 		private bool _hasAnimator;
 
+        private bool _forcingAnimation;
+
 
 		private void Awake()
 		{
@@ -235,13 +237,42 @@ namespace HOTS.Player
 			// move the player
 			_controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-			// update animator if using character
-			if (_hasAnimator)
+			// update animator if using character and not currently
+			// forcing to show an specific animation
+			if (_hasAnimator && !_forcingAnimation)
 			{
 				_animator.SetFloat(_animIDSpeed, _animationBlend);
 				_animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
 			}
 		}
+
+		/// <summary>
+		/// Activates the walk animation of the player.
+		/// </summary>
+		public void ActivateWalkAnimation()
+        {
+            _forcingAnimation = true;
+
+            if (_hasAnimator)
+            {
+                _animator.SetFloat(_animIDSpeed, MoveSpeed);
+                _animator.SetFloat(_animIDMotionSpeed, 1);
+			}
+        }
+
+        /// <summary>
+        /// Deactivates the walk animation of the player.
+        /// </summary>
+		public void DeactivateWalkAnimation()
+        {
+            _forcingAnimation = false;
+
+            if (_hasAnimator)
+			{
+				_animator.SetFloat(_animIDSpeed, 0);
+                _animator.SetFloat(_animIDMotionSpeed, 0);
+			}
+        }
 
 		private void JumpAndGravity()
 		{

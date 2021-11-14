@@ -1,4 +1,5 @@
 using System.Collections;
+using HOTS.Animation.Controller;
 using HOTS.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -168,6 +169,10 @@ namespace HOTS.Manager.Battle
             var startingPos = gameObject.transform.position;
             var elapsedTime = 0f;
 
+            // Activate walk animation 
+            var animationController = gameObject.GetComponent<AnimationController>();
+            animationController.ActivateWalkAnimation();
+
             while (elapsedTime < time)
             {
                 // Set position for object to move
@@ -179,6 +184,9 @@ namespace HOTS.Manager.Battle
 
                 yield return null;
             }
+
+            // Deactivate walk animation 
+            animationController.DeactivateWalkAnimation();
 
             // Set rotation of the object back to the starting position
             for (var i = 0; i < 50; i++)
