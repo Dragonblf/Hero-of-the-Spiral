@@ -63,8 +63,10 @@ namespace HOTS.Player
 		public float BottomClamp = -30.0f;
 		[Tooltip("Additional degress to override the camera. Useful for fine tuning camera position when locked")]
 		public float CameraAngleOverride = 0.0f;
-		[Tooltip("For locking the camera position on all axis")]
-		public bool LockCameraPosition = false;
+        [Tooltip("For locking the camera position on all axis")]
+        public bool LockCameraPosition = false;
+        [Tooltip("For soft locking the camera position behind the player")]
+        public bool SoftLockCameraPosition = false;
 
 		// cinemachine
 		private float _cinemachineTargetYaw;
@@ -97,6 +99,7 @@ namespace HOTS.Player
 		private const float _threshold = 0.01f;
 
 		private bool _hasAnimator;
+
 
 		private void Awake()
 		{
@@ -157,21 +160,27 @@ namespace HOTS.Player
 		}
 
 		private void CameraRotation()
-		{
-			// if there is an input and camera position is not fixed
+        {
+			// Here we check for the soft lock for the camera to
+			// deactivate any rotation by input and let the camera
+			// following the player.
+			if (SoftLockCameraPosition) { return; }
+
+			// Here we check for an input and camera position is not fixed to
+			// allow to position and rotate the camera on a specific point.
 			if (_input.look.sqrMagnitude >= _threshold && !LockCameraPosition)
 			{
 				_cinemachineTargetYaw += _input.look.x * Time.deltaTime * MouseSensitivity;
 				_cinemachineTargetPitch += _input.look.y * Time.deltaTime * MouseSensitivity;
 			}
 
-			// clamp our rotations so our values are limited 360 degrees
-			_cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
-			_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
+            // clamp our rotations so our values are limited 360 degrees
+            _cinemachineTargetYaw = ClampAngle(_cinemachineTargetYaw, float.MinValue, float.MaxValue);
+            _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 
-			// Cinemachine will follow this target
-			CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
-		}
+            // Cinemachine will follow this target
+            CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride, _cinemachineTargetYaw, 0.0f);
+        }
 
 		private void Move()
 		{

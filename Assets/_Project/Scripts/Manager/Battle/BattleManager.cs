@@ -1,4 +1,5 @@
 using System.Collections;
+using HOTS.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -105,6 +106,7 @@ namespace HOTS.Manager.Battle
 
             // Deactivate players movement
             _player.GetComponent<PlayerInput>().DeactivateInput();
+            _player.GetComponent<PlayerController>().SoftLockCameraPosition = true;
 
             // Move player to desired battle position
             StartCoroutine(SetPlayerBattlePosition(_player, 0, _battleGround));
@@ -112,7 +114,7 @@ namespace HOTS.Manager.Battle
             // Move enemy to desired battle position
             StartCoroutine(SetEnemyBattlePosition(_enemy, 0, _battleGround));
         }
-        
+
 
         /// <summary>
         /// Sets the battle position for <paramref name="player"/>.
@@ -244,6 +246,7 @@ namespace HOTS.Manager.Battle
 
             // Activate players movement
             _player.GetComponent<PlayerInput>().ActivateInput();
+            _player.GetComponent<PlayerController>().SoftLockCameraPosition = false;
         }
     }
 
